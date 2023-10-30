@@ -1,8 +1,8 @@
 <?php
 
-use App\Router;
+//use App\Router;
 
-require'../vendor/autoload.php';
+require '../vendor/autoload.php';
 
 $router = new App\Router(dirname(__DIR__) . '/views');
 $router
