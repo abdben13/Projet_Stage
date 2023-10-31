@@ -1,7 +1,10 @@
 <?php
-$pdo = new PDO('mysql:dbname=projet_stage;host=127.0.0.1', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-]);
+
+use App\Connection;
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$pdo = Connection::getPDO();
 
 /*for ($i = 0; $i < 50; $i++) {
     $pdo->exec("INSERT INTO post SET name='Article #$i', slug='article-$i', created_at='2023-10-30 16:00:00', content='lorem ipsum'");

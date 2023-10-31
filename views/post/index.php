@@ -1,23 +1,14 @@
 <?php
 
+use App\Connection;
 use App\Helpers\Text;
 use App\Model\Post;
-
+use App\URL;
 
 $title = 'Nos véhicules';
-$pdo = new PDO('mysql:dbname=projet_stage;host=127.0.0.1', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-]);
-$page = $_GET['page'] ?? 1;
-if (!filter_var($page, FILTER_VALIDATE_INT)) {
-    throw new Exception('Numero de page invalide');
-}
-if($page ==='1') {
-    header('Location: ' .$router->url('home'));
-    http_response_code(301);
-    exit();
-}
-$currentPage = (int)$page;
+$pdo = Connection::getPDO();
+
+$currentPage = URL::getPositiveInt('page', 1);
 if($currentPage <= 0) {
     throw new Exception('Numero de page invalide');
 }
