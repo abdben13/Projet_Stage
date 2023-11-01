@@ -38,7 +38,6 @@ $marques = $query->fetchAll();
 <h1><?= e($post->getName())?></h1>
 <p class="text-muted"><?= $post->getCreatedAt()->format('d F Y') ?></p>
 <?php foreach ($marques as $marque): ?>
-    <a href="#"><?= e($marque->getName()) ?></a>
+    <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' =>$marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
 <?php endforeach ?>
 <p><?= $post->getFormattedContent() ?></p>
-
