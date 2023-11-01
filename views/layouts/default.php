@@ -16,4 +16,7 @@
     <?= $content ?>
 </div>
 </body>
+<footer class="d-flex justify-content-center">
+    <p>© By Abdelaziz 2023</p>
+</footer>
 </html>

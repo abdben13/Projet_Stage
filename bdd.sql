@@ -1,11 +1,17 @@
 CREATE TABLE post (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    slug VARCHAR(255) NOT NULL,
-    content TEXT(65000) NOT NULL,
-    created_at DATETIME NOT NULL,
-    prix INTEGER NOT NULL,
-    PRIMARY KEY (id)
+                      id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                      name VARCHAR(255) NOT NULL,
+                      slug VARCHAR(255) NOT NULL,
+                      content TEXT(65000) NOT NULL,
+                      created_at DATETIME NOT NULL,
+                      prix INTEGER NOT NULL,
+                      marque_id INT UNSIGNED,  -- Nouvelle colonne pour la clé étrangère
+                      PRIMARY KEY (id),
+                      CONSTRAINT fk_marque
+                          FOREIGN KEY (marque_id)
+                              REFERENCES marque (id)
+                              ON DELETE CASCADE
+                              ON UPDATE RESTRICT
 )
 
 CREATE TABLE marque (
