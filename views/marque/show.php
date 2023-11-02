@@ -24,7 +24,7 @@ if($marque->getSlug() !== $slug) {
     header('Location: ' . $url);
 }
 
-$title = "Marque {$marque->getName()}";
+$title = " {$marque->getName()}";
 $currentPage = URL::getPositiveInt('page', 1);
 if($currentPage <= 0) {
     throw new Exception('Numero de page invalide');
@@ -52,7 +52,7 @@ $link = $router->url('marque', ['id' => $marque->getID(), 'slug' =>$marque->getS
 ?>
 
 
-<h1>Categorie <?= e($title) ?></h1>
+<h1>Véhicules <?= e($title) ?></h1>
 
 <div class="row">
     <?php foreach($posts as $post): ?>

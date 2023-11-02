@@ -20,6 +20,6 @@ if(isset($_GET['page']) && $_GET ['page'] === '1') {
 $router = new App\Router(dirname(__DIR__) . '/views');
 $router
     ->get('/', 'post/index', 'home')
+    ->get('/marque/[*:slug]-[i:id]', 'marque/show', 'marque')
     ->get('/Projet_Stage/[*:slug]-[i:id]', 'post/show', 'post')
-    ->get('/Projet_Stage/marque/[*:slug]-[i:id]', 'marque/show', 'marque')
     ->run();

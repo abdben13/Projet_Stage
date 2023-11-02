@@ -10,7 +10,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a href="#" class="navbar-brand">Achetez-Auto.com</a>
+    <a href="<?= $router->url('home') ?>" class="navbar-brand">Achetez-Auto.com</a>
 </nav>
 <div class="container mt-4">
     <?= $content ?>
