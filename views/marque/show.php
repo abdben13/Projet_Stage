@@ -76,3 +76,4 @@ $link = $router->url('marque', ['id' => $marque->getID(), 'slug' =>$marque->getS
         </div>
     <?php endif ?>
 </div>
+

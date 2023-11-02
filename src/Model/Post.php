@@ -13,7 +13,8 @@ class Post {
     private $categories = [];
     private $prix;
     private $kilometrage;
-    //private $miseencirculation;
+    private $mise_en_circulation;
+    private $image_path;
     public function getName(): ?string
     {
         return $this->name;
@@ -40,5 +41,21 @@ class Post {
     public function getID (): ?int
     {
         return $this->id;
+    }
+    public function getPrix (): ?int
+    {
+        return $this->prix;
+    }
+    public function getKilometrage (): ?int
+    {
+        return $this->kilometrage;
+    }
+    public function getMise_en_circulation (): ?DateTime
+    {
+        return new DateTime($this->mise_en_circulation);
+    }
+    public function getImagePath(): ?string
+    {
+        return '/Projet_Stage/public/img/' . $this->image_path;
     }
 }

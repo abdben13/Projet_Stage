@@ -22,4 +22,5 @@ $router
     ->get('/', 'post/index', 'home')
     ->get('/marque/[*:slug]-[i:id]', 'marque/show', 'marque')
     ->get('/Projet_Stage/[*:slug]-[i:id]', 'post/show', 'post')
+    ->get('/marques-filter', 'App\MarquesFilterController@showFilterPage', 'marques_filter')
     ->run();

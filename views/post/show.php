@@ -35,9 +35,14 @@ $marques = $query->fetchAll();
 ?>
 
 
-<h1><?= e($post->getName())?></h1>
+<h1><?= e($post->getName()) ?></h1>
 <p class="text-muted"><?= $post->getCreatedAt()->format('d F Y') ?></p>
 <?php foreach ($marques as $marque): ?>
-    <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' =>$marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
+    <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' => $marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
 <?php endforeach ?>
-<p><?= $post->getFormattedContent() ?></p>
+<!-- Affichez l'image ici -->
+<img src="<?= $post->getImagePath() ?>" alt="Image du post">
+<p>Description: <?= $post->getFormattedContent() ?></p>
+<p>Date de mise en circulation: <?= $post->getMise_en_circulation()->format('d/m/y') ?></p>
+<p>Kilométrage: <?= $post->getKilometrage() ?> kms</p>
+<p>Prix: <?= $post->getPrix() ?>€</p>
