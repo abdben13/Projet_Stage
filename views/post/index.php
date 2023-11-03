@@ -8,23 +8,29 @@ use App\URL;
 $title = 'Nos véhicules';
 $pdo = Connection::getPDO();
 
-$currentPage = URL::getPositiveInt('page', 1);
-if($currentPage <= 0) {
-    throw new Exception('Numero de page invalide');
-}
-$count = (int)$pdo->query('SELECT COUNT(id) FROM post')->fetch(PDO::FETCH_NUM)[0];
-$perPage = 12;
-$pages = ceil($count / $perPage);
-if($currentPage > $pages) {
-    throw new Exception('Cette page n\'existe pas');
-}
-$offset = $perPage * ($currentPage - 1);
-$query = $pdo->query("SELECT * FROM post ORDER BY created_at DESC LIMIT $perPage OFFSET $offset");
-$posts = $query->fetchALL(PDO::FETCH_CLASS, Post::class);
+$paginatedQuery = new \App\PaginatedQuery(
+    "SELECT * FROM post ORDER BY created_at DESC",
+    "SELECT COUNT(id) FROM post"
+);
+$posts = $paginatedQuery->getItems(Post::class);
+$link = $router->url('home');
 ?>
 
 <h1>Catalogue</h1>
 
+<div class="container mt-4">
+    <form action="<?= $router->url('marques_filter') ?>" method="get">
+        <label for="marque">Filtrer par marque :</label>
+        <select name="marque" id="marque">
+            <option value="">Toutes les marques</option>
+            <?php foreach ($marques as $marque): ?>
+                <option value="<?= $marque->getID() ?>"><?= e($marque->getName()) ?></option>
+            <?php endforeach ?>
+        </select>
+        <button type="submit" class="btn btn-primary">Filtrer</button>
+    </form>
+</div>
+<br>
 <div class="row">
     <?php foreach($posts as $post): ?>
     <div class="col-md-3">
@@ -34,14 +40,9 @@ $posts = $query->fetchALL(PDO::FETCH_CLASS, Post::class);
 </div>
 
 <div class="d-flex justify-content-between my-4">
-    <?php if ($currentPage > 1): ?>
-        <a href="<?= $router->url('home') ?>?page=<?= $currentPage - 1 ?>" class="btn btn-primary">&laquo; Page précédente</a>
-    <?php endif ?>
-
-    <?php if ($currentPage < $pages): ?>
-        <div style="margin-left: auto;"> <!-- affichage du boutton en bas a droite lorsque l user est sur la page 1 -->
-            <a href="<?= $router->url('home') ?>?page=<?= $currentPage + 1 ?>" class="btn btn-primary">Page suivante &raquo;</a>
-        </div>
-    <?php endif ?>
+    <?= $paginatedQuery->previousLink($link); ?>
+    <div style="margin-left: auto;">
+        <?= $paginatedQuery->nextLink($link); ?>
+    </div>
 </div>
 

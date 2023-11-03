@@ -34,15 +34,16 @@ $query->setFetchMode(PDO::FETCH_CLASS, Marque::class);
 $marques = $query->fetchAll();
 ?>
 
-
-<h1><?= e($post->getName()) ?></h1>
-<p class="text-muted"><?= $post->getCreatedAt()->format('d F Y') ?></p>
 <?php foreach ($marques as $marque): ?>
     <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' => $marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
 <?php endforeach ?>
-<!-- Affichez l'image ici -->
+<h1><?= e($post->getName()) ?></h1>
 <img src="<?= $post->getImagePath() ?>" alt="Image du post">
-<p>Description: <?= $post->getFormattedContent() ?></p>
+<br>
+<br>
 <p>Date de mise en circulation: <?= $post->getMise_en_circulation()->format('d/m/y') ?></p>
 <p>Kilométrage: <?= $post->getKilometrage() ?> kms</p>
 <p>Prix: <?= $post->getPrix() ?>€</p>
+<p>Description: <?= $post->getFormattedContent() ?></p>
+<p class="text-muted"><?= $post->getCreatedAt()->format('d F Y') ?></p>
+
