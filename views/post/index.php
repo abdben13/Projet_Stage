@@ -1,33 +1,15 @@
 <?php
 
 use App\Connection;
-use App\Helpers\Text;
-use App\Model\Post;
-use App\URL;
+use App\Table\PostTable;
+
 
 $title = 'Nos véhicules';
 $pdo = Connection::getPDO();
 
-$paginatedQuery = new \App\PaginatedQuery(
-    "SELECT * FROM post ORDER BY created_at DESC",
-    "SELECT COUNT(id) FROM post"
-);
-$posts = $paginatedQuery->getItems(Post::class);
-$postsByID = [];
-foreach ($posts as $post) {
-    $postsByID[$post->getID()] = $post;
-}
+$table = new PostTable($pdo);
+[$posts, $pagination] = $table->findPaginated();
 
-$marque = $pdo
-    ->query('SELECT m.*, pm.post_id
-    FROM post_marque pm
-    JOIN marque m ON m.id = pm.marque_id
-    WHERE pm.post_id IN (' . implode(',', array_keys($postsByID)) . ')'
-    )->fetchAll(PDO::FETCH_CLASS, \App\Model\Marque::class);
-
-foreach ($marque as $marques) {
-    $postsByID[$marques->getPostID()]->addMarque($marques);
-}
 $link = $router->url('home');
 ?>
 
@@ -55,9 +37,9 @@ $link = $router->url('home');
 </div>
 
 <div class="d-flex justify-content-between my-4">
-    <?= $paginatedQuery->previousLink($link); ?>
+    <?= $pagination->previousLink($link); ?>
     <div style="margin-left: auto;">
-        <?= $paginatedQuery->nextLink($link); ?>
+        <?= $pagination->nextLink($link); ?>
     </div>
 </div>
 
