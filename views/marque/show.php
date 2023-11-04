@@ -39,6 +39,21 @@ $paginatedQuery = new PaginatedQuery(
 
 /** @var Post[] */
 $posts = $paginatedQuery->getItems(Post::class);
+$postsByID = [];
+foreach ($posts as $post) {
+    $postsByID[$post->getID()] = $post;
+}
+
+$marque = $pdo
+    ->query('SELECT m.*, pm.post_id
+    FROM post_marque pm
+    JOIN marque m ON m.id = pm.marque_id
+    WHERE pm.post_id IN (' . implode(',', array_keys($postsByID)) . ')'
+    )->fetchAll(PDO::FETCH_CLASS, \App\Model\Marque::class);
+
+foreach ($marque as $marque) {
+    $postsByID[$marque->getPostID()]->addMarque($marque);
+}
 $link = $router->url('marque', ['id' => $marque->getID(), 'slug' =>$marque->getSlug()]);
 ?>
 

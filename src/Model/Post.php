@@ -10,7 +10,7 @@ class Post {
     private $name;
     private $content;
     private $created_at;
-    private $categories = [];
+    private $marques = [];
     private $prix;
     private $kilometrage;
     private $mise_en_circulation;
@@ -57,5 +57,18 @@ class Post {
     public function getImagePath(): ?string
     {
         return '/Projet_Stage/public/img/' . $this->image_path;
+    }
+
+    /**
+     * @return Marque[]
+     */
+    public function getMarques(): array
+    {
+        return $this->marques;
+    }
+    public function addMarque(Marque $marque): void
+    {
+        $this->marques[] = $marque;
+        $marque->setPost($this);
     }
 }

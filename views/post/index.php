@@ -13,6 +13,21 @@ $paginatedQuery = new \App\PaginatedQuery(
     "SELECT COUNT(id) FROM post"
 );
 $posts = $paginatedQuery->getItems(Post::class);
+$postsByID = [];
+foreach ($posts as $post) {
+    $postsByID[$post->getID()] = $post;
+}
+
+$marque = $pdo
+    ->query('SELECT m.*, pm.post_id
+    FROM post_marque pm
+    JOIN marque m ON m.id = pm.marque_id
+    WHERE pm.post_id IN (' . implode(',', array_keys($postsByID)) . ')'
+    )->fetchAll(PDO::FETCH_CLASS, \App\Model\Marque::class);
+
+foreach ($marque as $marques) {
+    $postsByID[$marques->getPostID()]->addMarque($marques);
+}
 $link = $router->url('home');
 ?>
 
