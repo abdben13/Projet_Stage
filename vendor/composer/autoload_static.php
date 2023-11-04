@@ -11,6 +11,10 @@ class ComposerStaticInit41d662c47447174c1680bec3e7b5251f
     );
 
     public static $prefixLengthsPsr4 = array (
+        'V' => 
+        array (
+            'Valitron\\' => 9,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -18,6 +22,10 @@ class ComposerStaticInit41d662c47447174c1680bec3e7b5251f
     );
 
     public static $prefixDirsPsr4 = array (
+        'Valitron\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/valitron/src/Valitron',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',

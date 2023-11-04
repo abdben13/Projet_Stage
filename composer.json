@@ -8,6 +8,7 @@
     "require": {
         "altorouter/altorouter": "1.2.0",
       "ext-pdo": "*",
-      "ext-mbstring": "*"
+      "ext-mbstring": "*",
+        "vlucas/valitron": "1.4.5"
     }
 }
