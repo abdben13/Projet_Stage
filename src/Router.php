@@ -33,6 +33,8 @@ namespace App;
             $view = $match['target'];
             $params = $match['params'];
             $router = $this;
+            $view = str_replace(['::', '\\'], ['/', '/'], $view);
+            $viewPath = $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
             ob_start();
             require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
             $content = ob_get_clean();

@@ -31,4 +31,9 @@ namespace App\Table;
                 $postsByID[$marques->getPostID()]->addMarque($marques);
             }
         }
+        public function findAll()
+        {
+            $query = $this->pdo->query("SELECT * FROM {$this->table}");
+            return $query->fetchAll(PDO::FETCH_CLASS, $this->class);
+        }
     }

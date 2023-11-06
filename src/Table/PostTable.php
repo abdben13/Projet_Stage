@@ -31,19 +31,22 @@ class PostTable extends Table{
         (new MarqueTable($this->pdo))->hydratePosts($posts);
         return [$posts, $paginatedQuery];
     }
-    public function findPaginatedMarque(int $marqueID) {
+
+    public function findPaginatedMarque(int $marqueID)
+    {
         $paginatedQuery = new PaginatedQuery(
             "SELECT p.* 
-                    FROM {$this->table} p 
-                    JOIN post_marque pm ON pm.post_id = p.id
-                    WHERE pm.marque_id = {$marqueID}
-                    ORDER BY created_at DESC",
+            FROM {$this->table} p 
+            JOIN post_marque pm ON pm.post_id = p.id
+            WHERE pm.marque_id = {$marqueID}
+            ORDER BY created_at DESC",
             "SELECT COUNT(marque_id) FROM post_marque WHERE marque_id = {$marqueID}"
         );
         $posts = $paginatedQuery->getItems(Post::class);
         (new MarqueTable($this->pdo))->hydratePosts($posts);
         return [$posts, $paginatedQuery];
     }
+
     public function updateFields(Post $post, array $fields): void
     {
         $setClauses = [];
@@ -64,6 +67,10 @@ class PostTable extends Table{
             throw new Exception("L'annonce n'a pas pu être mise à jour {$post->getID()}");
         }
     }
-
+    public function findAll(): array
+    {
+        $sql = "SELECT * FROM {$this->table} ORDER BY created_at DESC";
+        return $this->pdo->query($sql, PDO::FETCH_CLASS, $this->class)->fetchAll();
+    }
 
 }

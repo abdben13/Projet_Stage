@@ -69,5 +69,6 @@ HTML;
     }
         return ceil($this->count / $this->perPage);
     }
+
 }
 

@@ -22,9 +22,10 @@ $router
     ->get('/', 'post/index', 'home')
     ->get('/marque/[*:slug]-[i:id]', 'marque/show', 'marque')
     ->get('/Projet_Stage/[*:slug]-[i:id]', 'post/show', 'post')
-    ->get('/marques-filter', 'App\MarquesFilterController@showFilterPage', 'marques_filter')
+    ->get('/marques-filter', 'filtre/indexFiltre', 'marques_filter')
     ->get('/admin', 'admin/post/index', 'admin_posts')
     ->match('/admin/post/[i:id]', 'admin/post/edit', 'admin_post')
     ->post('/admin/post/[i:id]/delete', 'admin/post/delete', 'admin_post_delete')
     ->get('/admin/post/new', 'admin/post/new', 'admin_post_new')
     ->run();
+

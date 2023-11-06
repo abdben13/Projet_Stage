@@ -1,12 +1,14 @@
 <?php
 
 use App\Connection;
+use App\Table\MarqueTable;
 use App\Table\PostTable;
 
 
 $title = 'Nos véhicules';
 $pdo = Connection::getPDO();
-
+$marqueTable = new MarqueTable($pdo);
+$marques = $marqueTable->findAll();
 $table = new PostTable($pdo);
 [$posts, $pagination] = $table->findPaginated();
 
@@ -19,7 +21,6 @@ $link = $router->url('home');
     <form action="<?= $router->url('marques_filter') ?>" method="get">
         <label for="marque">Filtrer par marque :</label>
         <select name="marque" id="marque">
-            <option value="">Toutes les marques</option>
             <?php foreach ($marques as $marque): ?>
                 <option value="<?= $marque->getID() ?>"><?= e($marque->getName()) ?></option>
             <?php endforeach ?>
