@@ -28,6 +28,7 @@ if($post->getSlug() !== $slug) {
 <br>
 <br>
 <p>Date de mise en circulation: <?= $post->getMise_en_circulation()->format('d/m/y') ?></p>
+<p>Energie: <?= $post->getEnergie() ?></p>
 <p>Kilométrage: <?= $post->getKilometrage() ?> kms</p>
 <p>Prix: <?= $post->getPrix() ?>€</p>
 <p>Description: <?= $post->getFormattedContent() ?></p>
