@@ -14,9 +14,19 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a href="<?= $router->url('home') ?>" class="navbar-brand">Achetez-Auto.com</a>
+    <div style="margin-left: auto;">
+    <a href="<?= $router->url('home') ?>" class="navbar-brand">Accueil</a>
+        <a href="#" class="navbar-brand">Contact</a>
+        <a href="<?= $router->url('home') ?>" class="navbar-brand">Se connecter</a>
+    </div>
 </nav>
 
 
+<div class="d-flex justify-content-between my-4">
+    <div style="margin-left: auto;">
+        <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
+    </div>
+</div>
 <div class="container mt-4">
     <?= $content ?>
 </div>

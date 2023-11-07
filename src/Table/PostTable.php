@@ -46,6 +46,33 @@ class PostTable extends Table{
         (new MarqueTable($this->pdo))->hydratePosts($posts);
         return [$posts, $paginatedQuery];
     }
+    public function findPostsByFilters(?int $marqueID, ?int $priceMax): array
+    {
+        $parameters = [];
+        $conditions = [];
+
+        if ($marqueID !== null) {
+            $conditions[] = "pm.marque_id = :marqueID";
+            $parameters[':marqueID'] = $marqueID;
+        }
+
+        if ($priceMax !== null) {
+            $conditions[] = "p.prix <= :priceMax";
+            $parameters[':priceMax'] = $priceMax;
+        }
+
+        $sql = "SELECT p.*
+        FROM {$this->table} p
+        LEFT JOIN post_marque pm ON p.id = pm.post_id";
+
+        if (!empty($conditions)) {
+            $sql .= " WHERE " . implode(" AND ", $conditions);
+        }
+        $query = $this->pdo->prepare($sql);
+        $query->execute($parameters);
+        return $query->fetchAll(PDO::FETCH_CLASS, $this->class);
+    }
+
 
     public function updateFields(Post $post, array $fields): void
     {

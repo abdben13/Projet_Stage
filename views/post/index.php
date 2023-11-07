@@ -19,21 +19,18 @@ $link = $router->url('home');
 
 <div class="container mt-4">
     <form action="<?= $router->url('marques_filter') ?>" method="get">
-        <label for="marque">Filtrer par marque :</label>
+        <label for="marque"> Par marque </label>
         <select name="marque" id="marque">
             <option value="">Toutes les marques</option>
             <?php foreach ($marques as $marque): ?>
                 <option value="<?= $marque->getID() ?>"><?= e($marque->getName()) ?></option>
             <?php endforeach ?>
         </select>
+        <label for="price_max">Prix maximum :</label>
+        <input type="number" id="price_max" name="price_max" min="0">
         <button type="submit" class="btn btn-primary">Filtrer</button>
     </form>
 </div>
-<form action="#" method="get">
-    <label for="price_max">Prix maximum :</label>
-    <input type="number" id="price_max" name="price_max" min="0">
-    <button type="submit" class="btn btn-primary">Rechercher</button>
-</form>
 <br>
 <div class="row">
     <?php foreach($posts as $post): ?>
