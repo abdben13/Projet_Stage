@@ -11,6 +11,11 @@ $marques = $marqueTable->findAll();
 
 // Récupére la marque sélectionnée depuis $_GET
 $marqueID = $_GET['marque'] ?? null;
+if ($marqueID === '' || $marqueID === '0') {
+    // Redirection vers la page d'accueil
+    header("Location: " . $router->url('home'));
+    exit;
+}
 $table = new PostTable($pdo);
 // Vérifie si la marque sélectionnée est valide
 if (is_numeric($marqueID)) {
@@ -29,6 +34,7 @@ $link = $router->url('home');
     <form action="<?= $router->url('marques_filter') ?>" method="get">
         <label for="marque">Filtrer par marque :</label>
         <select name="marque" id="marque">
+            <option value="">Toutes les marques</option>
             <?php foreach ($marques as $marque): ?>
                 <option value="<?= $marque->getID() ?>" <?= $marque->getID() == $marqueID ? 'selected' : '' ?>>
                     <?= e($marque->getName()) ?>
