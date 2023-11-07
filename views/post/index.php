@@ -29,6 +29,11 @@ $link = $router->url('home');
         <button type="submit" class="btn btn-primary">Filtrer</button>
     </form>
 </div>
+<form action="#" method="get">
+    <label for="price_max">Prix maximum :</label>
+    <input type="number" id="price_max" name="price_max" min="0">
+    <button type="submit" class="btn btn-primary">Rechercher</button>
+</form>
 <br>
 <div class="row">
     <?php foreach($posts as $post): ?>
