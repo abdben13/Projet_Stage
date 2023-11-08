@@ -35,10 +35,8 @@ $link = $router->url('home');
         <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
     </div>
 </div>
-<?php
-$title = " {$marque->getName()}";
-?>
-<h1>Véhicules <?= e($title) ?></h1>
+
+<h1>Véhicules</h1>
 
 <br>
 <?php if (empty($posts)): ?>
