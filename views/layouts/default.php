@@ -22,11 +22,6 @@
 </nav>
 
 
-<div class="d-flex justify-content-between my-4">
-    <div style="margin-left: auto;">
-        <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
-    </div>
-</div>
 <div class="container mt-4">
     <?= $content ?>
 </div>

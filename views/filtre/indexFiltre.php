@@ -3,7 +3,6 @@ use App\Connection;
 use App\Table\MarqueTable;
 use App\Table\PostTable;
 
-$title = 'Nos véhicules';
 $pdo = Connection::getPDO();
 $marqueTable = new MarqueTable($pdo);
 $table = new PostTable($pdo);
@@ -21,15 +20,25 @@ if ($marqueID === null && $priceMax !== null) {
     // Appel de la méthode avec les paramètres de filtre normaux
     $posts = $table->findPostsByFilters($marqueID, $priceMax);
 }
+
 $table = new PostTable($pdo);
 // Récupére le prix maximum depuis $_GET
 $priceMax = $_GET['price_max'] !== '' ? (int)$_GET['price_max'] : null;
 // Utilise la  méthode pour trouver les posts en fonction des filtres
 $posts = $table->findPostsByFilters($marqueID, $priceMax);
 $link = $router->url('home');
+
 ?>
 
-<h1>Catalogue</h1>
+<div class="d-flex justify-content-between my-4">
+    <div style="margin-left: auto;">
+        <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
+    </div>
+</div>
+<?php
+$title = " {$marque->getName()}";
+?>
+<h1>Véhicules <?= e($title) ?></h1>
 
 <br>
 <?php if (empty($posts)): ?>
@@ -39,7 +48,6 @@ $link = $router->url('home');
         <?php foreach ($posts as $postGroup): ?>
             <?php if (is_array($postGroup)): ?>
                 <?php foreach ($postGroup as $post): ?>
-                    <!-- Affichez les résultats de la recherche ici -->
                 <?php endforeach ?>
             <?php endif ?>
         <?php endforeach ?>

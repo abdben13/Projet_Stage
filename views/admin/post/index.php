@@ -18,6 +18,13 @@ $link = $router->url('admin_posts');
     L'annonce a bien été supprimé
 </div>
 <?php endif ?>
+
+<div class="d-flex justify-content-between my-4">
+    <div style="margin-left: auto;">
+        <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
+    </div>
+</div>
+
 <table class="table table-striped">
     <thead>
         <th>References</th>

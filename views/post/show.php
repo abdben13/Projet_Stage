@@ -20,6 +20,12 @@ if($post->getSlug() !== $slug) {
 }
 ?>
 
+<div class="d-flex justify-content-between my-4">
+    <div style="margin-left: auto;">
+        <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
+    </div>
+</div>
+
 <?php foreach ($post->getMarques() as $marque): ?>
     <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' => $marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
 <?php endforeach ?>

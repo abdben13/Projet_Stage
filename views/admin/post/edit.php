@@ -54,6 +54,13 @@ if (!empty($_POST)) {
         L'annonce n'a pas pu être modifiée
     </div>
 <?php endif ?>
+
+    <div class="d-flex justify-content-between my-4">
+        <div style="margin-left: auto;">
+            <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
+        </div>
+    </div>
+
 <h1>Editer l'annonce: <?= e($post->getName()) ?></h1>
 <form action="" method="POST">
     <?= $form->input('name', 'Titre'); ?>
