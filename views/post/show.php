@@ -26,17 +26,37 @@ if($post->getSlug() !== $slug) {
     </div>
 </div>
 
-<?php foreach ($post->getMarques() as $marque): ?>
-    <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' => $marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
-<?php endforeach ?>
 <h1><?= e($post->getName()) ?></h1>
 <img src="<?= $post->getImagePath() ?>" alt="Image du post">
 <br>
 <br>
-<p>Date de mise en circulation: <?= $post->getMise_en_circulation()->format('d/m/y') ?></p>
-<p>Energie: <?= $post->getEnergie() ?></p>
-<p>Kilométrage: <?= $post->getKilometrage() ?> kms</p>
-<p>Prix: <?= $post->getPrix() ?>€</p>
-<p>Description: <?= $post->getFormattedContent() ?></p>
-<p class="text-muted"><?= $post->getCreatedAt()->format('d F Y') ?></p>
+<div class="border p-3 mb-3 d-flex align-items-baseline">
+
+    <div class="flex-grow-1 me-3">
+        <fieldset>
+            <legend class="w-auto">-------- Critères --------</legend>
+            <p>Constructeur: <?php foreach ($post->getMarques() as $marque): ?>
+                    <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' => $marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
+                <?php endforeach ?></p>
+            <p>Date de mise en circulation: <?= $post->getMise_en_circulation()->format('d/m/y') ?></p>
+            <p>Energie: <?= $post->getEnergie() ?></p>
+        </fieldset>
+    </div>
+
+    <div class="flex-grow-1">
+        <p class="mb-3">Kilométrage: <?= $post->getKilometrage() ?> kms</p>
+        <p>Prix: <?= $post->getPrix() ?>€</p>
+        <p>Mise en ligne le: <?= $post->getCreatedAt()->format('d/m/y') ?></p>
+    </div>
+
+</div>
+
+<div class="border p-3">
+    <fieldset>
+        <legend class="w-auto">-------- Description --------</legend>
+        <p><?= $post->getFormattedContent() ?></p>
+    </fieldset>
+</div>
+
+
 

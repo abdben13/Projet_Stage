@@ -11,7 +11,7 @@ use PDO;
 
 class PostTable extends Table{
     protected $table ="post";
-    protected $class = Post::class;
+    public $class = Post::class;
     public function delete (int $id): void
     {
         $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = ?");
@@ -99,5 +99,8 @@ class PostTable extends Table{
         $sql = "SELECT * FROM {$this->table} ORDER BY created_at DESC";
         return $this->pdo->query($sql, PDO::FETCH_CLASS, $this->class)->fetchAll();
     }
-
+    public function getTable(): string
+    {
+        return $this->table;
+    }
 }

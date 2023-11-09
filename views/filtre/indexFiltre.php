@@ -1,33 +1,53 @@
 <?php
+
 use App\Connection;
 use App\Table\MarqueTable;
 use App\Table\PostTable;
+use App\Model\Marque;
 
 $pdo = Connection::getPDO();
 $marqueTable = new MarqueTable($pdo);
 $table = new PostTable($pdo);
 $marques = $marqueTable->findAll();
 
-// Récupére la marque sélectionnée depuis $_GET
 $marqueID = isset($_GET['marque']) ? (int)$_GET['marque'] : null;
 $priceMax = isset($_GET['price_max']) ? (int)$_GET['price_max'] : null;
 
-// Vérifiez si l'utilisateur n'a pas sélectionné de marque (marqueID est null) mais a spécifié un prix maximum
-if ($marqueID === null && $priceMax !== null) {
-    // Appel de la méthode avec les paramètres de filtre normaux, sauf la marque (en laissant null)
-    $posts = $table->findPostsByFilters(null, $priceMax);
-} else {
-    // Appel de la méthode avec les paramètres de filtre normaux
-    $posts = $table->findPostsByFilters($marqueID, $priceMax);
+$conditions = [];
+$parameters = [];
+
+if ($marqueID !== null) {
+    if ($marqueID === 0) {
+        $marquesQuery = "SELECT * FROM marque";
+        $marques = $pdo->query($marquesQuery)->fetchAll(PDO::FETCH_CLASS, Marque::class);
+    } else {
+        $conditions[] = 'pm.marque_id = :marqueID';
+        $parameters[':marqueID'] = $marqueID;
+    }
+}
+if ($priceMax !== null) {
+    $conditions[] = 'p.prix <= :priceMax';
+    $parameters[':priceMax'] = $priceMax;
 }
 
-$table = new PostTable($pdo);
-// Récupére le prix maximum depuis $_GET
-$priceMax = $_GET['price_max'] !== '' ? (int)$_GET['price_max'] : null;
-// Utilise la  méthode pour trouver les posts en fonction des filtres
-$posts = $table->findPostsByFilters($marqueID, $priceMax);
-$link = $router->url('home');
+// Build the SQL query
+        $sql = "SELECT p.*
+        FROM {$table->getTable()} p
+        LEFT JOIN post_marque pm ON p.id = pm.post_id";
 
+if (!empty($conditions)) {
+    $sql .= " WHERE " . implode(" AND ", $conditions);
+}
+
+$query = $pdo->prepare($sql);
+$query->execute($parameters);
+
+$marqueName = ($marqueID !== null && $marqueID !== 0) ? $marqueTable->find($marqueID)->getName() : '';
+$title = $marqueName;
+// Use the method to find the posts based on the constructed query
+$posts = $query->fetchAll(PDO::FETCH_CLASS, $table->class);
+
+$link = $router->url('home');
 ?>
 
 <div class="d-flex justify-content-between my-4">
@@ -36,7 +56,7 @@ $link = $router->url('home');
     </div>
 </div>
 
-<h1>Véhicules</h1>
+<h1>Véhicules <?= e($title) ?></h1>
 
 <br>
 <?php if (empty($posts)): ?>
@@ -81,3 +101,5 @@ $link = $router->url('home');
         </div>
     <?php endforeach ?>
 </div>
+
+

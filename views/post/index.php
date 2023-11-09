@@ -16,28 +16,28 @@ $link = $router->url('home');
 ?>
 <h1 class='text-center'>Trouver votre voiture au meilleur prix</h1>
 
-<div class='text-center'>
-    <div class="container mt-4">
-        <form action="<?= $router->url('marques_filter') ?>" method="get">
-            <label for="marque"> Par marque </label>
-            <select name="marque" id="marque">
-                <option value="">Toutes les marques</option>
-                <?php foreach ($marques as $marque): ?>
-                    <option value="<?= $marque->getID() ?>"><?= e($marque->getName()) ?></option>
-                <?php endforeach ?>
-            </select>
-            <label for="price_max">Prix maximum :</label>
-            <input type="number" id="price_max" name="price_max" min="0">
-            <button type="submit" class="btn btn-primary">Filtrer</button>
-        </form>
-    </div>
+
+<div class="container mt-4">
+    <form action="<?= $router->url('marques_filter') ?>" method="get">
+        <label for="marque"> Par marque </label>
+        <select name="marque" id="marque">
+            <option value="">Toutes les marques</option>
+            <?php foreach ($marques as $marque): ?>
+                <option value="<?= $marque->getID() ?>"><?= e($marque->getName()) ?></option>
+            <?php endforeach ?>
+        </select>
+        <label for="price_max">Prix maximum :</label>
+        <input type="number" id="price_max" name="price_max" min="0">
+        <button type="submit" class="btn btn-primary">Filtrer</button>
+    </form>
 </div>
+
 <br>
 <div class="row">
     <?php foreach($posts as $post): ?>
-    <div class="col-md-3">
-        <?php require 'card.php' ?>
-    </div>
+        <div class="col-md-3">
+            <?php require 'card.php' ?>
+        </div>
     <?php endforeach ?>
 </div>
 
