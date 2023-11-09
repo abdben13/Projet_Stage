@@ -21,20 +21,24 @@ if($post->getSlug() !== $slug) {
 ?>
 
 <div class="d-flex justify-content-between my-4">
-    <h1><?= e($post->getName()) ?></h1>
-    <div class="ml-auto">
-        <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
-    </div>
+        <div style="margin-left: auto;">
+            <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
+        </div>
 </div>
-<img src="<?= $post->getImagePath() ?>" alt="Image du post">
 
+<div class="d-flex justify-content-center align-items-center">
+    <img src="<?= $post->getImagePath() ?>" alt="Image du post">
+</div>
+<h1><?= e($post->getName()) ?></h1>
+<p>Constructeur: <?php foreach ($post->getMarques() as $marque): ?>
+    <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' => $marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
 <div class="border p-3 mb-3 d-flex align-items-baseline">
 
     <div class="flex-grow-1 me-3">
         <fieldset>
             <legend class="w-auto">-------- Critères --------</legend>
-            <p>Constructeur: <?php foreach ($post->getMarques() as $marque): ?>
-                    <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' => $marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
+            <p>Reference: <?= $post->getID() ?></p>
+
                 <?php endforeach ?></p>
             <p>Date de mise en circulation: <?= $post->getMise_en_circulation()->format('d/m/y') ?></p>
             <p>Energie: <?= $post->getEnergie() ?></p>

@@ -90,7 +90,8 @@ class Post {
 
     public function getImagePath(): ?string
     {
-        return '/Projet_Stage/public/img/' . $this->image_path;
+        return $this->image_path;
+
     }
 
     /**
