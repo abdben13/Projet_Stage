@@ -78,7 +78,7 @@ $link = $router->url('home');
                 <div class="card-body">
                     <h5 class="card-title"><?= htmlentities($post->getName()) ?></h5>
                     <p class="text-muted">
-                        <?= $post->getCreatedAt()->format('d F Y') ?>
+                        <img src="<?= $post->getImagePath() ?>" alt="Image du post" style="max-width: 100px; height: auto;">
                         <?php if (!empty($post->getMarques())): ?>
                             ::
                             <?php

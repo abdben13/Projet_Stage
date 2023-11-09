@@ -26,14 +26,18 @@ if($post->getSlug() !== $slug) {
         </div>
 </div>
 
-<div class="d-flex justify-content-center align-items-center">
-    <img src="<?= $post->getImagePath() ?>" alt="Image du post">
-</div>
-<h1><?= e($post->getName()) ?></h1>
-<p>Constructeur: <?php foreach ($post->getMarques() as $marque): ?>
+<h1> <?php foreach ($post->getMarques() as $marque): ?>
     <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' => $marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
+    <?= e($post->getName()) ?>
+</h1>
+<br>
+<div class="img">
+    <a href="<?= $post->getImagePath() ?>" target="_blank">
+        <img src="<?= $post->getImagePath() ?>" alt="Image du post" style="max-width: 300px; height: auto;">
+    </a>
+</div>
+<br>
 <div class="border p-3 mb-3 d-flex align-items-baseline">
-
     <div class="flex-grow-1 me-3">
         <fieldset>
             <legend class="w-auto">-------- Critères --------</legend>
