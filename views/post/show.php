@@ -21,15 +21,13 @@ if($post->getSlug() !== $slug) {
 ?>
 
 <div class="d-flex justify-content-between my-4">
-    <div style="margin-left: auto;">
+    <h1><?= e($post->getName()) ?></h1>
+    <div class="ml-auto">
         <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
     </div>
 </div>
-
-<h1><?= e($post->getName()) ?></h1>
 <img src="<?= $post->getImagePath() ?>" alt="Image du post">
-<br>
-<br>
+
 <div class="border p-3 mb-3 d-flex align-items-baseline">
 
     <div class="flex-grow-1 me-3">
@@ -57,6 +55,15 @@ if($post->getSlug() !== $slug) {
         <p><?= $post->getFormattedContent() ?></p>
     </fieldset>
 </div>
+<div class="mt-3 mb-5 text-center">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contactModal">
+        Nous contacter
+    </button>
+</div>
+
+
+
+
 
 
 
