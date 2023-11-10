@@ -12,13 +12,15 @@ HTML;
         <?php if(!empty($post->getMarques())): ?>
             <?= implode(', ', $marques) ?>
         <?php endif ?>
-        <h5 class="card-title"><?= htmlentities($post->getName())?></h5>
+        <h5 class="card-title"><?= e($post->getName())?></h5>
         <p class="text-muted">
         </p>
-        <img src="<?= $post->getImagePath() ?>" alt="Image du post" style="max-width: 100px; height: auto;">
+        <div class="thumbnail">
+        <img src="<?= $post->getImagePath() ?>" alt="<?= e($post->getName())?>">
+        </div>
         <p><?= $post->getExcerpt() ?></p>
         <p>
             <a href="<?= $router->url('post', ['id' =>$post->getID(), 'slug'=>$post->getSlug()]) ?>"  class="btn btn-primary">Voir plus</a>
         </p>
-    </div>
+    </div> <!-- .card-body -->
 </div>

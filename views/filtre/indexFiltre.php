@@ -9,6 +9,7 @@ $pdo = Connection::getPDO();
 $marqueTable = new MarqueTable($pdo);
 $table = new PostTable($pdo);
 $marques = $marqueTable->findAll();
+[$posts, $pagination] = $table->findPaginated();
 
 $marqueID = isset($_GET['marque']) ? (int)$_GET['marque'] : null;
 $priceMax = isset($_GET['price_max']) ? (int)$_GET['price_max'] : null;
@@ -30,7 +31,6 @@ if ($priceMax !== null) {
     $parameters[':priceMax'] = $priceMax;
 }
 
-// Build the SQL query
         $sql = "SELECT p.*
         FROM {$table->getTable()} p
         LEFT JOIN post_marque pm ON p.id = pm.post_id";
@@ -44,14 +44,13 @@ $query->execute($parameters);
 
 $marqueName = ($marqueID !== null && $marqueID !== 0) ? $marqueTable->find($marqueID)->getName() : '';
 $title = $marqueName;
-// Use the method to find the posts based on the constructed query
 $posts = $query->fetchAll(PDO::FETCH_CLASS, $table->class);
 
 $link = $router->url('home');
 ?>
 
 <div class="d-flex justify-content-between my-4">
-    <div style="margin-left: auto;">
+    <div class="btn-retour">
         <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
     </div>
 </div>
@@ -101,5 +100,10 @@ $link = $router->url('home');
         </div>
     <?php endforeach ?>
 </div>
-
+<div class="d-flex justify-content-between my-4">
+    <?= $pagination->previousLink($link); ?>
+    <div class="btn-pagination">
+        <?= $pagination->nextLink($link); ?>
+    </div>
+</div>
 

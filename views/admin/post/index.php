@@ -20,7 +20,7 @@ $link = $router->url('admin_posts');
 <?php endif ?>
 
 <div class="d-flex justify-content-between my-4">
-    <div style="margin-left: auto;">
+    <div class="btn-retour">
         <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
     </div>
 </div>
@@ -54,7 +54,7 @@ $link = $router->url('admin_posts');
 </table>
 <div class="d-flex justify-content-between my-4">
     <?= $pagination->previousLink($link); ?>
-    <div style="margin-left: auto;">
+    <div class="btn-pagination">
         <?= $pagination->nextLink($link); ?>
     </div>
 </div>

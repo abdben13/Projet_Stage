@@ -26,7 +26,7 @@ $link = $router->url('marque', ['id' => $marque->getID(), 'slug' =>$marque->getS
 ?>
 
 <div class="d-flex justify-content-between my-4">
-    <div style="margin-left: auto;">
+    <div class="btn-retour">
         <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
     </div>
 </div>

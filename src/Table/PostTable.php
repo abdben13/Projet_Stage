@@ -74,22 +74,20 @@ class PostTable extends Table{
     }
 
 
-    public function updateFields(Post $post, array $fields): void
+    public function update(Post $post): void
     {
-        $setClauses = [];
-        $values = [];
-        foreach ($fields as $field => $value) {
-            if ($value instanceof DateTime) {
-                $value = $value->format('Y-m-d H:i:s');
-            }
-            $setClauses[] = "$field = :$field";
-            $values[":$field"] = $value;
-        }
-
-        $query = $this->pdo->prepare("UPDATE {$this->table} SET " . implode(', ', $setClauses) . " WHERE id = :id");
-        $values[':id'] = $post->getID();
-
-        $ok = $query->execute($values);
+        $query = $this->pdo->prepare("UPDATE {$this->table} SET name = :name, slug = :slug, mise_en_circulation = :mise_en_circulation, 
+                 content = :content, kilometrage = :kilometrage, prix = :prix, energie = :energie WHERE id = :id");
+        $ok = $query->execute([
+            'id' => $post->getID(),
+            'name' => $post->getName(),
+            'slug' => $post->getSlug(),
+            'content' => $post->getContent(),
+            'prix' => $post->getPrix(),
+            'kilometrage' => $post->getKilometrage(),
+            'mise_en_circulation' => $post->getMise_en_circulation()->format('Y-m-d'),
+            'energie' => $post->getEnergie()
+        ]);
         if ($ok === false) {
             throw new Exception("L'annonce n'a pas pu être mise à jour {$post->getID()}");
         }

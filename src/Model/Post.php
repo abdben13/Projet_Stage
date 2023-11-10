@@ -50,6 +50,11 @@ class Post {
     {
         return new DateTime($this->created_at);
     }
+    public function setCreatedAt(string $date): self
+    {
+        $this->created_at = $date;
+        return $this;
+    }
     public function getSlug (): ?string
     {
         return $this->slug;
@@ -80,9 +85,9 @@ class Post {
     {
         return new DateTime($this->mise_en_circulation);
     }
-    public function setMise_en_circulation(?DateTime $mise_en_circulation): self
+    public function setMiseencirculation(string $date): self
     {
-        $this->mise_en_circulation = $mise_en_circulation;
+        $this->mise_en_circulation = $date;
         return $this;
     }
 

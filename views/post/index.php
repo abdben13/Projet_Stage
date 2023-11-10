@@ -43,7 +43,7 @@ $link = $router->url('home');
 
 <div class="d-flex justify-content-between my-4">
     <?= $pagination->previousLink($link); ?>
-    <div style="margin-left: auto;">
+    <div class="btn-pagination">
         <?= $pagination->nextLink($link); ?>
     </div>
 </div>

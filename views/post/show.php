@@ -21,13 +21,14 @@ if($post->getSlug() !== $slug) {
 ?>
 
 <div class="d-flex justify-content-between my-4">
-        <div style="margin-left: auto;">
-            <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
-        </div>
+    <div class="btn-retour">
+        <a href="javascript:history.back()" class="btn btn-primary">Retour</a>
+    </div>
 </div>
 
 <h1> <?php foreach ($post->getMarques() as $marque): ?>
     <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' => $marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
+    <?php endforeach ?>
     <?= e($post->getName()) ?>
 </h1>
 <br>
@@ -43,7 +44,6 @@ if($post->getSlug() !== $slug) {
             <legend class="w-auto">-------- Critères --------</legend>
             <p>Reference: <?= $post->getID() ?></p>
 
-                <?php endforeach ?></p>
             <p>Date de mise en circulation: <?= $post->getMise_en_circulation()->format('d/m/y') ?></p>
             <p>Energie: <?= $post->getEnergie() ?></p>
         </fieldset>
