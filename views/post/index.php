@@ -52,4 +52,4 @@ $link = $router->url('home');
         <?= $pagination->nextLink($link); ?>
     </div>
 </div>
-
+<br>
