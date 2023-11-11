@@ -31,7 +31,7 @@ if ($priceMax !== null) {
     $parameters[':priceMax'] = $priceMax;
 }
 
-        $sql = "SELECT p.*
+$sql = "SELECT p.*
         FROM {$table->getTable()} p
         LEFT JOIN post_marque pm ON p.id = pm.post_id";
 
@@ -106,4 +106,5 @@ $link = $router->url('home');
         <?= $pagination->nextLink($link); ?>
     </div>
 </div>
+
 
