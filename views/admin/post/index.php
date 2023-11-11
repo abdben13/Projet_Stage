@@ -29,7 +29,7 @@ $link = $router->url('admin_posts');
     <thead>
         <th>References</th>
         <th>Annonces</th>
-        <th>Actions</th>
+        <th><a href="<?= $router->url('admin_post_new') ?>" class="btn btn-primary">Créer une annonce</a></th>
     </thead>
     <tbody>
         <?php foreach ($posts as $post): ?>

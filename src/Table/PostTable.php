@@ -92,6 +92,30 @@ class PostTable extends Table{
             throw new Exception("L'annonce n'a pas pu être mise à jour {$post->getID()}");
         }
     }
+    public function create(Post $post): void
+    {
+        $slug = $this->generateSlug($post->getName());
+        $query = $this->pdo->prepare("INSERT INTO {$this->table} SET name = :name, slug = :slug, mise_en_circulation = :mise_en_circulation, 
+                 content = :content, kilometrage = :kilometrage, prix = :prix, energie = :energie, created_at = :created_at");
+        $ok = $query->execute([
+            'name' => $post->getName(),
+            'slug' => $slug,
+            'content' => $post->getContent(),
+            'prix' => $post->getPrix(),
+            'kilometrage' => $post->getKilometrage(),
+            'mise_en_circulation' => $post->getMise_en_circulation()->format('Y-m-d'),
+            'energie' => $post->getEnergie(),
+            'created_at' =>$post->getCreatedAt()->format('Y-m-d')
+        ]);
+        if ($ok === false) {
+            throw new Exception("L'annonce n'a pas pu être créer {$post->getID()}");
+        }
+        $post->setID($this->pdo->lastInsertId());
+    }
+    private function generateSlug(string $name): string
+    {
+        return strtolower(str_replace(' ', '-', $name));
+    }
     public function findAll(): array
     {
         $sql = "SELECT * FROM {$this->table} ORDER BY created_at DESC";

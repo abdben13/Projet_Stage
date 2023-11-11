@@ -32,20 +32,31 @@ HTML;
             </div>
 HTML;
     }
-    private function getValue (string $key) {
+    private function getValue(string $key): ?string
+    {
         if (is_array($this->data)) {
             return $this->data[$key] ?? null;
         }
+
         $method = 'get' . ucfirst($key);
-        return $this->data->$method();
+        $value = $this->data->$method();
+
+        if ($value instanceof \DateTimeInterface) {
+            return $value->format('Y-m-d');
+        }
+
+        return $value;
     }
     public function datetimeInput(string $key, string $label): string
     {
         $value = $this->getValue($key);
-        $formattedValue = $value->format('Y-m-d');
+        if ($value instanceof \DateTimeInterface) {
+            $formattedValue = $value->format('Y-m-d');
+        } else {
+            $formattedValue = $value; // If it's a string, use it directly
+        }
         $inputClass = 'form-control';
         $invalidFeedback = '';
-
         if (isset($this->errors[$key])) {
             $inputClass .= ' is-invalid';
             $invalidFeedback = '<div class="invalid-feedback">' . implode('<br>', $this->errors[$key]) .'</div>';

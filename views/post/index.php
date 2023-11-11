@@ -14,6 +14,11 @@ $table = new PostTable($pdo);
 
 $link = $router->url('home');
 ?>
+<?php if (isset($_GET['success'])): ?>
+    <div class="alert alert-success">
+        L'annonce a bien été créer
+    </div>
+<?php endif ?>
 <h1 class='text-center'>Trouver votre voiture au meilleur prix</h1>
 
 

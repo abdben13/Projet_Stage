@@ -3,7 +3,6 @@ use App\Connection;
 use App\HTML\Form;
 use App\ObjectHelper;
 use App\Table\PostTable;
-use App\Validator;
 use App\Validators\PostValidator;
 
 $pdo = Connection::getPDO();
@@ -14,9 +13,8 @@ $errors = [];
 $form = new Form($post, $errors);
 
 if (!empty($_POST)) {
-    Validator::lang('fr');
     $v = new PostValidator($_POST);
-    ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'prix', 'kilometrage', 'mise_en_circulation', 'energie']);
+    ObjectHelper::hydrate($post, $_POST, ['name', 'slug', 'content', 'prix', 'kilometrage', 'mise_en_circulation', 'energie']);
     if ($v->validate()) {
         $postTable->update($post);
         $success = true;
@@ -32,6 +30,11 @@ $form = new Form($post, $errors);
         L'annonce a bien été modifiée
     </div>
 <?php endif ?>
+<?php if (isset($_GET['success'])): ?>
+    <div class="alert alert-success">
+        L'annonce a bien été créer
+    </div>
+<?php endif ?>
 <?php if (!empty($errors)): ?>
     <div class="alert alert-danger">
         L'annonce n'a pas pu être modifiée
@@ -45,7 +48,17 @@ $form = new Form($post, $errors);
     </div>
 
 <h1>Editer l'annonce: <?= e($post->getName()) ?></h1>
-<?php require('_form.php') ?>
+    <form action="" method="POST">
+        <?= $form->input('name', 'Titre'); ?>
+        <?= $form->textarea('content', 'Description'); ?>
+        <?= $form->input('prix', 'Prix'); ?>
+        <?= $form->input('kilometrage', 'Kilometrage'); ?>
+        <?= $form->datetimeInput('mise_en_circulation', 'Mise en circulation'); ?>
+        <?= $form->input('energie', 'Energie'); ?>
+        <?= $form->datetimeInput('CreatedAt', 'Date de publication'); ?>
+        <br>
+        <button class="btn btn-primary">Modifié</button>
+    </form>
 <br>
 <?php if ($success): ?>
     <?php $updatedPost = $postTable->find($post->getID()); ?>

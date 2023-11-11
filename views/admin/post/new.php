@@ -4,22 +4,20 @@ use App\HTML\Form;
 use App\Model\Post;
 use App\ObjectHelper;
 use App\Table\PostTable;
-use App\Validator;
 use App\Validators\PostValidator;
 
-$success = false;
 $errors = [];
 $post = new Post();
 
 if (!empty($_POST)) {
     $pdo = Connection::getPDO();
     $postTable = new PostTable($pdo);
-    Validator::lang('fr');
     $v = new PostValidator($_POST);
-    ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'prix', 'kilometrage', 'mise_en_circulation', 'energie']);
+    ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'prix', 'kilometrage', 'mise_en_circulation', 'energie', 'created_at']);
     if ($v->validate()) {
-        $postTable->update($post);
-        $success = true;
+        $postTable->create($post);
+        header('Location: ' . $router->url('home', ['id' => $post->getID()]) . '?success=1');
+        exit();
     } else {
         $errors = $v->errors();
     }
@@ -27,11 +25,6 @@ if (!empty($_POST)) {
 $form = new Form($post, $errors);
 ?>
 
-<?php if ($success): ?>
-    <div class="alert alert-success">
-        L'annonce a bien été enregistrée
-    </div>
-<?php endif ?>
 <?php if (!empty($errors)): ?>
     <div class="alert alert-danger">
         L'annonce n'a pas pu être enregistrée
@@ -45,9 +38,15 @@ $form = new Form($post, $errors);
 </div>
 
 <h1>Créer une annonce</h1>
-<?php require('_form.php') ?>
+<form action="" method="POST">
+    <?= $form->input('name', 'Titre'); ?>
+    <?= $form->textarea('content', 'Description'); ?>
+    <?= $form->input('prix', 'Prix'); ?>
+    <?= $form->input('kilometrage', 'Kilometrage'); ?>
+    <?= $form->datetimeInput('mise_en_circulation', 'Mise en circulation'); ?>
+    <?= $form->input('energie', 'Energie'); ?>
+    <?= $form->datetimeInput('CreatedAt', 'Date de publication'); ?>
+    <br>
+    <button class="btn btn-primary">Publié</button>
+</form>
 <br>
-<?php if ($success): ?>
-    <?php $updatedPost = $postTable->find($post->getID()); ?>
-    <?php $form = new Form($updatedPost, $errors); ?>
-<?php endif ?>
