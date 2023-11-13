@@ -23,6 +23,8 @@ $router
     ->get('/marque/[*:slug]-[i:id]', 'marque/show', 'marque')
     ->get('/Projet_Stage/[*:slug]-[i:id]', 'post/show', 'post')
     ->get('/marques-filter', 'filtre/indexFiltre', 'marques_filter')
+    ->match('/login', 'auth/login', 'login')
+    ->post('/logout', 'auth/logout', 'logout')
     //ADMIN
     //Gestion des posts
     ->get('/admin', 'admin/post/index', 'admin_posts')

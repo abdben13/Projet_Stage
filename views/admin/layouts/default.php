@@ -30,7 +30,11 @@
                 <a href="#" class="nav-link">Contact</a>
             </li>
             <li class="nav-item">
-                <a href="<?= $router->url('home') ?>" class="nav-link">Se connecter</a>
+                <form action="<?= $router->url('logout') ?>" method="post" style="display:inline">
+                    <div class="btn-logout">
+                        <button type="submit" class="nav-link">Se deconnecter</button>
+                    </div>
+                </form>
             </li>
         </ul>
 </nav>

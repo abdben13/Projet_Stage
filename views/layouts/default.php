@@ -24,7 +24,7 @@
                 <a href="#" class="nav-link">Contact</a>
             </li>
             <li class="nav-item">
-                <a href="<?= $router->url('home') ?>" class="nav-link">Se connecter</a>
+                <a href="<?= $router->url('login') ?>" class="nav-link">Se connecter</a>
             </li>
         </ul>
 </nav>

@@ -17,3 +17,8 @@
 .btn-pagination {
     margin-left: auto;
 }
+
+.btn-logout {
+    background: transparent;
+    border: none;
+}

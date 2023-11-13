@@ -2,8 +2,8 @@
 namespace App\Table\Exception;
 
 class NotFoundException extends \Exception {
-    public function __construct(string $table, int $id)
+    public function __construct(string $table)
     {
-        $this->message = "Aucun enregistement ne correspond à l'id #$id dans la table '$table'";
+        $this->message = "Aucun enregistement ne correspond dans la table '$table'";
     }
 }
