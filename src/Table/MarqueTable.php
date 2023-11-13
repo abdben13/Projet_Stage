@@ -2,7 +2,9 @@
 namespace App\Table;
 
     use App\Model\Marque;
+    use App\Model\Post;
     use App\Table\Exception\NotFoundException;
+    use Exception;
     use PDO;
 
     class MarqueTable extends Table {
@@ -35,5 +37,9 @@ namespace App\Table;
         {
             $query = $this->pdo->query("SELECT * FROM {$this->table}");
             return $query->fetchAll(PDO::FETCH_CLASS, $this->class);
+        }
+        protected function generateSlug(string $name): string
+        {
+            return strtolower(str_replace(' ', '-', $name));
         }
     }

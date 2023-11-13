@@ -12,14 +12,6 @@ use PDO;
 class PostTable extends Table{
     protected $table ="post";
     public $class = Post::class;
-    public function delete (int $id): void
-    {
-        $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = ?");
-        $ok = $query->execute([$id]);
-        if ($ok === false) {
-            throw new Exception("Impossible de supprimer l'annonce $id");
-        }
-    }
 
     public function findPaginated() {
         $paginatedQuery = new PaginatedQuery(
@@ -74,11 +66,10 @@ class PostTable extends Table{
     }
 
 
-    public function update(Post $post): void
+    public function updatePost (Post $post): void
     {
-        $query = $this->pdo->prepare("UPDATE {$this->table} SET name = :name, slug = :slug, mise_en_circulation = :mise_en_circulation, 
-                 content = :content, kilometrage = :kilometrage, prix = :prix, energie = :energie WHERE id = :id");
-        $ok = $query->execute([
+
+        $ok = $this->update([
             'id' => $post->getID(),
             'name' => $post->getName(),
             'slug' => $post->getSlug(),
@@ -87,17 +78,15 @@ class PostTable extends Table{
             'kilometrage' => $post->getKilometrage(),
             'mise_en_circulation' => $post->getMise_en_circulation()->format('Y-m-d'),
             'energie' => $post->getEnergie()
-        ]);
+        ], $post->getID());
         if ($ok === false) {
             throw new Exception("L'annonce n'a pas pu être mise à jour {$post->getID()}");
         }
     }
-    public function create(Post $post): void
+    public function createPost(Post $post): void
     {
         $slug = $this->generateSlug($post->getName());
-        $query = $this->pdo->prepare("INSERT INTO {$this->table} SET name = :name, slug = :slug, mise_en_circulation = :mise_en_circulation, 
-                 content = :content, kilometrage = :kilometrage, prix = :prix, energie = :energie, created_at = :created_at");
-        $ok = $query->execute([
+        $id = $this->create([
             'name' => $post->getName(),
             'slug' => $slug,
             'content' => $post->getContent(),
@@ -107,12 +96,12 @@ class PostTable extends Table{
             'energie' => $post->getEnergie(),
             'created_at' =>$post->getCreatedAt()->format('Y-m-d')
         ]);
-        if ($ok === false) {
+        if ($id === false) {
             throw new Exception("L'annonce n'a pas pu être créer {$post->getID()}");
         }
-        $post->setID($this->pdo->lastInsertId());
+        $post->setID($id);
     }
-    private function generateSlug(string $name): string
+    protected function generateSlug(string $name): string
     {
         return strtolower(str_replace(' ', '-', $name));
     }

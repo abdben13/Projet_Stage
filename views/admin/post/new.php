@@ -1,10 +1,14 @@
 <?php
+
+use App\Auth;
 use App\Connection;
 use App\HTML\Form;
 use App\Model\Post;
 use App\ObjectHelper;
 use App\Table\PostTable;
 use App\Validators\PostValidator;
+
+Auth::check();
 
 $errors = [];
 $post = new Post();
@@ -15,7 +19,7 @@ if (!empty($_POST)) {
     $v = new PostValidator($_POST);
     ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'prix', 'kilometrage', 'mise_en_circulation', 'energie', 'created_at']);
     if ($v->validate()) {
-        $postTable->create($post);
+        $postTable->createPost($post);
         header('Location: ' . $router->url('home', ['id' => $post->getID()]) . '?success=1');
         exit();
     } else {

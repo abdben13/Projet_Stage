@@ -1,9 +1,13 @@
 <?php
+
+use App\Auth;
 use App\Connection;
 use App\HTML\Form;
 use App\ObjectHelper;
 use App\Table\PostTable;
 use App\Validators\PostValidator;
+
+Auth::check();
 
 $pdo = Connection::getPDO();
 $postTable = new PostTable($pdo);
@@ -16,7 +20,7 @@ if (!empty($_POST)) {
     $v = new PostValidator($_POST);
     ObjectHelper::hydrate($post, $_POST, ['name', 'slug', 'content', 'prix', 'kilometrage', 'mise_en_circulation', 'energie']);
     if ($v->validate()) {
-        $postTable->update($post);
+        $postTable->updatePost($post);
         $success = true;
     } else {
         $errors = $v->errors();

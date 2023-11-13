@@ -30,4 +30,48 @@ use PDO;
         }
         return $result;
     }
+    public function all (): array
+    {
+        $sql = "SELECT * FROM {$this->table}";
+        return $this->pdo->query($sql, PDO::FETCH_CLASS, $this->class)->fetchAll();
+    }
+    public function delete (int $id)
+    {
+        $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = ?");
+        $ok = $query->execute([$id]);
+        if ($ok === false) {
+            throw new Exception("Impossible de supprimer l'enregistrement $id");
+        }
+    }
+    public function create (array $data): int
+    {
+        if (isset($data['name'])) {
+            $data['slug'] = $this->generateSlug($data['name']);
+        }
+        $sqlFields = [];
+        foreach ($data as $key => $value) {
+            $sqlFields[] = "$key = :$key";
+        }
+        $query = $this->pdo->prepare("INSERT INTO {$this->table} SET " . implode(', ', $sqlFields));
+        $ok = $query->execute($data);
+        if ($ok === false) {
+            throw new Exception("L'enregistrement n'a pas pu être créer {$this->table}");
+        }
+        return (int)$this->pdo->lastInsertId();
+    }
+    public function update (array $data, int $id)
+    {
+        if (isset($data['name'])) {
+            $data['slug'] = $this->generateSlug($data['name']);
+        }
+        $sqlFields = [];
+        foreach ($data as $key => $value) {
+            $sqlFields[] = "$key = :$key";
+        }
+        $query = $this->pdo->prepare("UPDATE {$this->table} SET " . implode(', ', $sqlFields) . " WHERE id = :id");
+        $ok = $query->execute(array_merge($data, ['id' => $id]));
+        if ($ok === false) {
+            throw new Exception("L'enregistrement n'a pas pu être modifié {$this->table}");
+        }
+    }
 }

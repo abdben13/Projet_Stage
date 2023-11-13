@@ -18,6 +18,12 @@
     <div class="nav">
         <ul class="navbar-nav">
             <li class="nav-item">
+                <a href="<?= $router->url('admin_posts') ?>" class="nav-link">Posts</a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= $router->url('admin_marques') ?>" class="nav-link">Marques</a>
+            </li>
+            <li class="nav-item">
                 <a href="<?= $router->url('home') ?>" class="nav-link">Accueil</a>
             </li>
             <li class="nav-item">
