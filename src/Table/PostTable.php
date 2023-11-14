@@ -68,7 +68,6 @@ class PostTable extends Table{
 
     public function updatePost (Post $post): void
     {
-
         $ok = $this->update([
             'id' => $post->getID(),
             'name' => $post->getName(),
@@ -100,6 +99,15 @@ class PostTable extends Table{
             throw new Exception("L'annonce n'a pas pu être créer {$post->getID()}");
         }
         $post->setID($id);
+
+    }
+    public function attachMarques (int $id, array $marques)
+    {
+        $this->pdo->exec('DELETE FROM post_marque WHERE post_id = ' . $id);
+        $query = $this->pdo->prepare('INSERT INTO post_marque SET post_id = ?, marque_id = ?');
+        foreach ($marques as $marque) {
+            $query->execute([$id, $marque]);
+        }
     }
     protected function generateSlug(string $name): string
     {

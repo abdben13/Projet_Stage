@@ -2,7 +2,7 @@
 namespace App\Validators;
 
 class PostValidator extends AbstractValidator {
-    public function __construct(array $data)
+    public function __construct(array $data, array $marques)
     {
         parent::__construct($data);
         $this->validator->rule('required', ['name']);
@@ -12,5 +12,6 @@ class PostValidator extends AbstractValidator {
         $this->validator->rule('required', 'kilometrage');
         $this->validator->rule('required', 'mise_en_circulation');
         $this->validator->rule('required', 'energie');
+        $this->validator->rule('subset', 'marquesIds', array_keys($marques));
     }
 }

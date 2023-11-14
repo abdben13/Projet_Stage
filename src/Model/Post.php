@@ -95,7 +95,14 @@ class Post {
         $this->mise_en_circulation = $date;
         return $this;
     }
-
+    public function getMarquesIds (): array
+    {
+        $ids = [];
+        foreach ($this->marques as $marque) {
+            $ids[] = $marque->getID();
+        }
+        return $ids;
+    }
 
 
     public function getImagePath(): ?string
@@ -110,6 +117,11 @@ class Post {
     public function getMarques(): array
     {
         return $this->marques;
+    }
+    public function setMarques(array $marques): self
+    {
+        $this->marques = $marques;
+        return $this;
     }
     public function addMarque(Marque $marque): void
     {

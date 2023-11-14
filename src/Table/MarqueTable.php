@@ -19,6 +19,7 @@ namespace App\Table;
         {
             $postsByID = [];
             foreach ($posts as $post) {
+                $post->setMarques([]);
                 $postsByID[$post->getID()] = $post;
             }
 
@@ -38,8 +39,22 @@ namespace App\Table;
             $query = $this->pdo->query("SELECT * FROM {$this->table}");
             return $query->fetchAll(PDO::FETCH_CLASS, $this->class);
         }
+        public function all (): array
+        {
+            return $this->queryAndFetchAll("SELECT * FROM {$this->table} ORDER BY id DESC");
+        }
         protected function generateSlug(string $name): string
         {
             return strtolower(str_replace(' ', '-', $name));
+        }
+        public function list (): array
+        {
+            $query = $this->pdo->query("SELECT * FROM {$this->table} ORDER BY name ASC");
+            $marques = $query->fetchAll(PDO::FETCH_CLASS, $this->class);
+            $results = [];
+            foreach ($marques as $marque) {
+                $results[$marque->getID()] = $marque->getName();
+            }
+            return $results;
         }
     }

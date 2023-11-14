@@ -5,6 +5,7 @@ use App\Connection;
 use App\HTML\Form;
 use App\Model\Post;
 use App\ObjectHelper;
+use App\Table\MarqueTable;
 use App\Table\PostTable;
 use App\Validators\PostValidator;
 
@@ -12,14 +13,19 @@ Auth::check();
 
 $errors = [];
 $post = new Post();
+$pdo = Connection::getPDO();
+$marqueTable = new MarqueTable($pdo);
+$marques = $marqueTable->list();
 
 if (!empty($_POST)) {
-    $pdo = Connection::getPDO();
     $postTable = new PostTable($pdo);
-    $v = new PostValidator($_POST);
+    $v = new PostValidator($_POST, $marques);
     ObjectHelper::hydrate($post, $_POST, ['name', 'content', 'prix', 'kilometrage', 'mise_en_circulation', 'energie', 'created_at']);
     if ($v->validate()) {
+        $pdo->beginTransaction();
         $postTable->createPost($post);
+        $postTable->attachMarques($post->getID(), $_POST['marquesIds']);
+        $pdo->commit();
         header('Location: ' . $router->url('home', ['id' => $post->getID()]) . '?success=1');
         exit();
     } else {
@@ -45,6 +51,7 @@ $form = new Form($post, $errors);
 <form action="" method="POST">
     <?= $form->input('name', 'Titre'); ?>
     <?= $form->textarea('content', 'Description'); ?>
+    <?= $form->select('marquesIds', 'Marques', $marques); ?>
     <?= $form->input('prix', 'Prix'); ?>
     <?= $form->input('kilometrage', 'Kilometrage'); ?>
     <?= $form->datetimeInput('mise_en_circulation', 'Mise en circulation'); ?>
