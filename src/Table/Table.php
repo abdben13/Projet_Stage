@@ -74,4 +74,9 @@ use PDO;
             throw new Exception("L'enregistrement n'a pas pu être modifié {$this->table}");
         }
     }
+     protected function queryAndFetchAll(string $sql): array
+     {
+         $query = $this->pdo->query($sql);
+         return $query->fetchAll(PDO::FETCH_CLASS, $this->class);
+     }
 }
