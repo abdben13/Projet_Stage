@@ -17,7 +17,12 @@ $priceMax = isset($_GET['price_max']) ? (int)$_GET['price_max'] : null;
 $conditions = [];
 $parameters = [];
 
-if ($marqueID !== null) {
+$sql = "SELECT p.*
+        FROM {$table->getTable()} p
+        LEFT JOIN post_marque pm ON p.id = pm.post_id";
+
+
+if (!empty($marqueID)) {
     if ($marqueID === 0) {
         $marquesQuery = "SELECT * FROM marque";
         $marques = $pdo->query($marquesQuery)->fetchAll(PDO::FETCH_CLASS, Marque::class);
@@ -26,14 +31,12 @@ if ($marqueID !== null) {
         $parameters[':marqueID'] = $marqueID;
     }
 }
-if ($priceMax !== null) {
+// Null != 0 et != false != '' != indefined != string
+
+if (isset($priceMax) && $priceMax !== 0) {
     $conditions[] = 'p.prix <= :priceMax';
     $parameters[':priceMax'] = $priceMax;
 }
-
-$sql = "SELECT p.*
-        FROM {$table->getTable()} p
-        LEFT JOIN post_marque pm ON p.id = pm.post_id";
 
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
@@ -41,12 +44,12 @@ if (!empty($conditions)) {
 
 $query = $pdo->prepare($sql);
 $query->execute($parameters);
-
 $marqueName = ($marqueID !== null && $marqueID !== 0) ? $marqueTable->find($marqueID)->getName() : '';
 $title = $marqueName;
 $posts = $query->fetchAll(PDO::FETCH_CLASS, $table->class);
 
 $link = $router->url('home');
+
 ?>
 
 <div class="d-flex justify-content-between my-4">
@@ -100,11 +103,3 @@ $link = $router->url('home');
         </div>
     <?php endforeach ?>
 </div>
-<div class="d-flex justify-content-between my-4">
-    <?= $pagination->previousLink($link); ?>
-    <div class="btn-pagination">
-        <?= $pagination->nextLink($link); ?>
-    </div>
-</div>
-
-

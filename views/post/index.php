@@ -24,16 +24,27 @@ $link = $router->url('home');
 
 <div class="container mt-4">
     <form action="<?= $router->url('marques_filter') ?>" method="get">
-        <label for="marque"> Par marque </label>
-        <select name="marque" id="marque">
-            <option value="">Toutes les marques</option>
-            <?php foreach ($marques as $marque): ?>
-                <option value="<?= $marque->getID() ?>"><?= e($marque->getName()) ?></option>
-            <?php endforeach ?>
-        </select>
-        <label for="price_max">Prix maximum :</label>
-        <input type="number" id="price_max" name="price_max" min="0">
-        <button type="submit" class="btn btn-primary">Filtrer</button>
+        <div class="row">
+            <div class="col-md-3"> <!-- 3 colonnes pour la sélection de marque -->
+                <label for="marque"> Par marque </label>
+                <select name="marque" id="marque" class="form-control">
+                    <option value="">Sélectionner une marque</option>
+                    <?php foreach ($marques as $marque): ?>
+                        <option value="<?= $marque->getID() ?>"><?= e($marque->getName()) ?></option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+            <div class="col-md-3"><!-- 3 colonnes  -->
+                <label for="price_max">Prix maximum :</label>
+
+                <input type="number" value="" id="price_max" name="price_max" min="100" step="100" class="form-control">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12"> <!-- Utilisation de 12 colonnes pour le bouton de soumission -->
+                <button type="submit" class="btn btn-primary btn-block">Filtrer</button>
+            </div>
+        </div>
     </form>
 </div>
 

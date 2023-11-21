@@ -8,19 +8,18 @@ HTML;
 }
 ?>
 <div class="card mb-3">
-    <div class="card-body">
+    <div class="card-body d-flex flex-column">
         <?php if(!empty($post->getMarques())): ?>
             <?= implode(', ', $marques) ?>
         <?php endif ?>
         <h5 class="card-title"><?= e($post->getName())?></h5>
-        <p class="text-muted">
-        </p>
+        <p class="text-muted"></p>
         <div class="thumbnail">
-        <img src="<?= $post->getImagePath() ?>" alt="<?= e($post->getName())?>">
+            <img src="<?= $post->getImagePath() ?>" alt="<?= e($post->getName())?>" class="img-fluid fixed-image">
         </div>
         <p><?= $post->getExcerpt() ?></p>
-        <p>
-            <a href="<?= $router->url('post', ['id' =>$post->getID(), 'slug'=>$post->getSlug()]) ?>"  class="btn btn-primary">Voir plus</a>
-        </p>
+            <p class="mt-auto text-center">
+                <a href="<?= $router->url('post', ['id' =>$post->getID(), 'slug'=>$post->getSlug()]) ?>" class="btn btn-primary">Voir plus</a>
+            </p>
     </div> <!-- .card-body -->
 </div>
