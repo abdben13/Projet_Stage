@@ -4,7 +4,7 @@
 
 .card {
     position: relative;
-    height: 600px;
+    height: 500px;
 }
 
 .thumbnail {
@@ -34,4 +34,8 @@
 .btn-logout {
     background: transparent;
     border: none;
+}
+
+.coordonnées {
+    text-align: center;
 }

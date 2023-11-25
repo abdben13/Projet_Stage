@@ -17,11 +17,13 @@ $priceMax = isset($_GET['price_max']) ? (int)$_GET['price_max'] : null;
 $conditions = [];
 $parameters = [];
 
+// requete de base
 $sql = "SELECT p.*
         FROM {$table->getTable()} p
         LEFT JOIN post_marque pm ON p.id = pm.post_id";
 
 
+// preparation de la requete pour filtrer par marque
 if (!empty($marqueID)) {
     if ($marqueID === 0) {
         $marquesQuery = "SELECT * FROM marque";
@@ -33,11 +35,12 @@ if (!empty($marqueID)) {
 }
 // Null != 0 et != false != '' != indefined != string
 
+// preparation  de la requete pour filtrer par prix
 if (isset($priceMax) && $priceMax !== 0) {
     $conditions[] = 'p.prix <= :priceMax';
     $parameters[':priceMax'] = $priceMax;
 }
-
+// construction de la requete
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
@@ -77,28 +80,20 @@ $link = $router->url('home');
     <?php foreach ($posts as $post): ?>
         <div class="col-md-3">
             <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title"><?= htmlentities($post->getName()) ?></h5>
-                    <p class="text-muted">
-                        <img src="<?= $post->getImagePath() ?>" alt="Image du post" style="max-width: 100px; height: auto;">
-                        <?php if (!empty($post->getMarques())): ?>
-                            ::
-                            <?php
-                            $marques = [];
-                            foreach ($post->getMarques() as $marque) {
-                                $url = $router->url('marque', ['id' => $marque->getID(), 'slug' => $marque->getSlug()]);
-                                $marques[] = '<a href="' . $url . '">' . $marque->getName() . '</a>';
-                            }
-                            echo implode(', ', $marques);
-                            ?>
-                        <?php endif ?>
-                    </p>
+                <div class="card-body d-flex flex-column">
+                    <?php if(!empty($post->getMarques())): ?>
+                        <?= implode(', ', $marques) ?>
+                    <?php endif ?>
+                    <h5 class="card-title"><?= e($post->getName())?></h5>
+                    <p class="text-muted"></p>
+                    <div class="thumbnail">
+                        <img src="<?= $post->getImagePath() ?>" alt="<?= e($post->getName())?>" class="img-fluid fixed-image">
+                    </div>
                     <p><?= $post->getExcerpt() ?></p>
-                    <p>
-                        <a href="<?= $router->url('post', ['id' => $post->getID(), 'slug' => $post->getSlug()]) ?>"
-                           class="btn btn-primary">Voir plus</a>
+                    <p class="mt-auto text-center">
+                        <a href="<?= $router->url('post', ['id' =>$post->getID(), 'slug'=>$post->getSlug()]) ?>" class="btn btn-primary">Voir plus</a>
                     </p>
-                </div>
+                </div> <!-- .card-body -->
             </div>
         </div>
     <?php endforeach ?>

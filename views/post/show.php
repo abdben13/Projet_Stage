@@ -1,8 +1,6 @@
 <?php
 
 use App\Connection;
-use App\Model\Marque;
-use App\Model\Post;
 use App\Table\MarqueTable;
 use App\Table\PostTable;
 
@@ -18,6 +16,10 @@ if($post->getSlug() !== $slug) {
     http_response_code(301);
     header('Location: ' . $url);
 }
+session_start();
+
+// Récupérez l'id' du post depuis la session
+$_SESSION['postID'] = $post->getID();
 ?>
 
 <div class="d-flex justify-content-between my-4">
@@ -27,7 +29,7 @@ if($post->getSlug() !== $slug) {
 </div>
 
 <h1> <?php foreach ($post->getMarques() as $marque): ?>
-    <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' => $marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
+        <a href="<?= $router->url('marque', ['id' => $marque->getID(), 'slug' => $marque->getSlug()]) ?>"><?= e($marque->getName()) ?></a>
     <?php endforeach ?>
     <?= e($post->getName()) ?>
 </h1>
@@ -63,14 +65,13 @@ if($post->getSlug() !== $slug) {
         <p><?= $post->getFormattedContent() ?></p>
     </fieldset>
 </div>
+<?php
+$name = $post->getName();
+
+?>
 <div class="mt-3 mb-5 text-center">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contactModal">
-        Nous contacter
-    </button>
+    <a href="<?= $router->url('contact', ['vehicle' => urlencode($post->getID())]) ?>" class="btn btn-primary">Nous contacter</a>
 </div>
-
-
-
 
 
 

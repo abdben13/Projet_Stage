@@ -3,7 +3,7 @@
 use App\Connection;
 
 $marqueFilter = $_GET['marque'] ?? null;
-$marqueFilter = (int) $marqueFilter;s
+$marqueFilter = (int) $marqueFilter;
 
 try {
     $pdo = Connection::getPDO();

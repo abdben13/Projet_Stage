@@ -33,8 +33,14 @@ namespace App;
         public function run(): self
         {
             $match = $this->router->match();
-            $view = $match['target'] ?: 'e404';
-            $params = $match['params'];
+            if ($match !== false) {
+                $view = $match['target'];
+                $params = $match['params'];
+            } else {
+                // Gérer le cas où aucune route ne correspond
+                $view = 'e404'; // Par exemple, une page d'erreur 404
+                $params = []; // Ajustez selon vos besoins
+            }
             $router = $this;
             $view = str_replace(['::', '\\'], ['/', '/'], $view);
             $viewPath = $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
